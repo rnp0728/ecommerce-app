@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/orders
+    username: rnp
+    password: rnp0728
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: mysql
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.JsonSerializer
+      properties:
+        spring.json.type.mapping: orderConfirmation:com.infinity.ecommerce.kafka.OrderConfirmation
+
+server:
+  port: 5002
+
+application:
+  config:
+    customer-url: http://localhost:5000/api/v1/customers
+    product-url: http://localhost:5001/api/v1/products
+    payment-url: http://localhost:5003/api/v1/payments

@@ -8,4 +8,4 @@ spring:
       password: rnp
 
 server:
-  port: 9090
+  port: 5000

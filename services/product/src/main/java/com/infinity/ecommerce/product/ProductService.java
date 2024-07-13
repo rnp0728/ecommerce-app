@@ -1,10 +1,12 @@
 package com.infinity.ecommerce.product;
 
-import exception.ProductPurchaseException;
+import com.infinity.ecommerce.exception.ProductPurchaseException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,24 @@ public class ProductService {
         if(productIds.size() != storedProducts.size()) {
             throw new ProductPurchaseException("One or more products does not exists.");
         }
-        return null;
+
+        var sortedRequest = request.stream()
+                .sorted(Comparator.comparing(ProductPurchaseRequest::productId))
+                .toList();
+
+        var purchasedProducts = new ArrayList<ProductPurchaseResponse>();
+        for(int i = 0; i < sortedRequest.size(); i++) {
+            var purchaseRequest = sortedRequest.get(i);
+            var storedProduct = storedProducts.get(i);
+            if(purchaseRequest.quantity() > storedProduct.getAvailableQuantity()) {
+                throw new ProductPurchaseException("Not enough stock for product: " + storedProduct.getId());
+            }
+            storedProduct.setAvailableQuantity(storedProduct.getAvailableQuantity() - purchaseRequest.quantity());
+            productRepository.save(storedProduct);
+            purchasedProducts
+                    .add(productMapper.toProductPurchaseResponse(storedProduct, purchaseRequest.quantity()));
+        }
+        return purchasedProducts;
     }
 
     public List<ProductResponse> findAllProducts() {

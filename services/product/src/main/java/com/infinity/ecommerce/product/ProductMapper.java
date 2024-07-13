@@ -6,17 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductMapper {
     public Product toProduct(ProductRequest r) {
-        return Product.builder()
-                .name(r.name())
-                .description(r.description())
-                .price(r.price())
-                .availableQuantity(r.availableQuantity())
-                .category(
-                        Category.builder()
-                                .id(r.categoryId())
-                                .build()
-                )
-                .build();
+        return null;
     }
 
     public ProductResponse toProductResponse(Product product) {
@@ -28,6 +18,16 @@ public class ProductMapper {
                 product.getCategory().getId(),
                 product.getCategory().getName(),
                 product.getCategory().getDescription()
+        );
+    }
+
+    public ProductPurchaseResponse toProductPurchaseResponse(Product product, Integer quantity) {
+        return new ProductPurchaseResponse(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                quantity
         );
     }
 }

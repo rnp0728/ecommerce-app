@@ -1,4 +1,4 @@
-package exception;
+package com.infinity.ecommerce.exception;
 
 
 public class ProductPurchaseException extends RuntimeException {

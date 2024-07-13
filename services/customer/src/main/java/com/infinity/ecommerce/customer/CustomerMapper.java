@@ -1,5 +1,8 @@
 package com.infinity.ecommerce.customer;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CustomerMapper {
     public Customer toCustomer(CustomerRequest request) {
         if (request == null) {
