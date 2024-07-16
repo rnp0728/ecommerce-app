@@ -21,6 +21,6 @@ server:
 
 application:
   config:
-    customer-url: http://localhost:5000/api/v1/customers
-    product-url: http://localhost:5001/api/v1/products
-    payment-url: http://localhost:5003/api/v1/payments
+    customer-url: http://localhost:5005/api/v1/customers
+    product-url: http://localhost:5005/api/v1/products
+    payment-url: http://localhost:5005/api/v1/payments
